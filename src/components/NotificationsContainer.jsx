@@ -1,12 +1,10 @@
+import { useContext } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import { Notification } from "./Notification";
-
-export const NotificationsContainer = ({
-  isOpen,
-  notificationsArray,
-  setNotificationsArray,
-}) => {
+import { NotificationsContext } from "../context/NotificationsContext";
+export const NotificationsContainer = ({ isOpen }) => {
+  const { notificationsArray } = useContext(NotificationsContext);
   return (
     <Box
       sx={{
@@ -28,8 +26,6 @@ export const NotificationsContainer = ({
                 key={id}
                 notificationMessage={notificationMessage}
                 seen={seen}
-                notificationsArray={notificationsArray}
-                setNotificationsArray={setNotificationsArray}
               />
             );
           })}

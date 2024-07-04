@@ -1,20 +1,22 @@
-import { useState } from "react";
+//Paso 4: Importar useContext y mi contexto (NotificationsContext) y usarlo
+
+import { useContext, useState } from "react";
 import { NotificationButton } from "./components/NotificationButton";
 
 import { Navbar } from "./components/Navbar";
+
+import { NotificationsContext } from "./context/NotificationsContext";
 function App() {
-  const [notificationsArray, setNotificationsArray] = useState([]);
+  //Acá lo estamos usando
+  const objetoGlobal = useContext(NotificationsContext);
+
+  // console.log(objetoGlobal);
   return (
     <>
-      <Navbar
-        notificationsArray={notificationsArray}
-        setNotificationsArray={setNotificationsArray}
-      />
+      <Navbar />
       <NotificationButton
         notificationName="Enviar Like"
         notificationMessage="Has recibido un like"
-        setNotificationsArray={setNotificationsArray}
-        notificationsArray={notificationsArray}
       />
     </>
   );

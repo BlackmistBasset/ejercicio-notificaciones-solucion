@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,9 +7,11 @@ import { IoIosNotifications } from "react-icons/io";
 
 import Badge from "@mui/material/Badge";
 import { NotificationsContainer } from "./NotificationsContainer";
+import { NotificationsContext } from "../context/NotificationsContext";
 
-export const Navbar = ({ notificationsArray, setNotificationsArray }) => {
+export const Navbar = () => {
   const [notificationsCounter, setNotificationsCounter] = useState(0);
+  const { notificationsArray } = useContext(NotificationsContext);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -40,11 +42,7 @@ export const Navbar = ({ notificationsArray, setNotificationsArray }) => {
               </IconButton>
             </Box>
           </Toolbar>
-          <NotificationsContainer
-            isOpen={isOpen}
-            notificationsArray={notificationsArray}
-            setNotificationsArray={setNotificationsArray}
-          />
+          <NotificationsContainer isOpen={isOpen} />
         </AppBar>
       </Box>
     </>

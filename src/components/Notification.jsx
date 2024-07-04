@@ -3,11 +3,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-export const Notification = ({
-  notificationsArray,
-  setNotificationsArray,
-  notificationMessage,
-}) => {
+export const Notification = ({ notificationMessage }) => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
