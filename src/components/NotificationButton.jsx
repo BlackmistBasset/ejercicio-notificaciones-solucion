@@ -9,7 +9,7 @@ export const NotificationButton = ({
 }) => {
   const { notificationsArray, setNotificationsArray } =
     useContext(NotificationsContext);
-
+  console.log(notificationsArray, setNotificationsArray);
   const handleSendNotification = (notification) => {
     const newNotification = {
       id: uuidv4(),
