@@ -1,10 +1,13 @@
 import { useContext } from "react";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
+import { Box, List, ListItem, ListItemText, Typography } from "@mui/material";
+
 import { Notification } from "./Notification";
 import { NotificationsContext } from "../context/NotificationsContext";
+
 export const NotificationsContainer = ({ isOpen }) => {
-  const { notificationsArray } = useContext(NotificationsContext);
+  const { notificationsArray, handleDeleteNotifications } =
+    useContext(NotificationsContext);
+
   return (
     <Box
       sx={{
@@ -19,16 +22,44 @@ export const NotificationsContainer = ({ isOpen }) => {
     >
       <nav aria-label="lista de notificacioines">
         <List>
-          {notificationsArray?.map(({ id, notificationMessage, seen }) => {
-            console.log(notificationMessage);
-            return (
-              <Notification
-                key={id}
-                notificationMessage={notificationMessage}
-                seen={seen}
+          {notificationsArray?.length > 0 && (
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: "10px",
+                ":hover": { textDecoration: "underline" },
+                padding: "16px",
+                textAlign: "end",
+                cursor: "pointer",
+                display: "inline-block",
+              }}
+              onClick={handleDeleteNotifications}
+            >
+              Borrar todas las notificaciones
+            </Typography>
+          )}
+          {notificationsArray?.length > 0 ? (
+            notificationsArray.map(
+              ({ id, notificationMessage, seen, notificationType }) => {
+                return (
+                  <Notification
+                    key={id}
+                    notificationMessage={notificationMessage}
+                    seen={seen}
+                    id={id}
+                    type={notificationType}
+                  />
+                );
+              }
+            )
+          ) : (
+            <ListItem>
+              <ListItemText
+                primary="No hay notificaciones para mostrar."
+                sx={{ color: "black", textAlign: "center" }}
               />
-            );
-          })}
+            </ListItem>
+          )}
         </List>
       </nav>
     </Box>

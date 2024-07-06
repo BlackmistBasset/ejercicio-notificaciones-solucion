@@ -1,31 +1,21 @@
 import Button from "@mui/material/Button";
 import { useContext } from "react";
 import { NotificationsContext } from "../context/NotificationsContext";
-import { v4 as uuidv4 } from "uuid";
 
 export const NotificationButton = ({
   notificationName,
   notificationMessage,
+  notificationType,
 }) => {
-  const { notificationsArray, setNotificationsArray } =
-    useContext(NotificationsContext);
-  console.log(notificationsArray, setNotificationsArray);
-  const handleSendNotification = (notification) => {
-    const newNotification = {
-      id: uuidv4(),
-      notificationMessage: notification,
-      seen: false,
-    };
-
-    setNotificationsArray([...notificationsArray, newNotification]);
-
-    console.log(notificationsArray);
-  };
+  const { handleSendNotification } = useContext(NotificationsContext);
 
   return (
     <Button
+      sx={{ marginTop: "100px" }}
       variant="contained"
-      onClick={() => handleSendNotification(notificationMessage)}
+      onClick={() =>
+        handleSendNotification(notificationMessage, notificationType)
+      }
     >
       {notificationName}
     </Button>
