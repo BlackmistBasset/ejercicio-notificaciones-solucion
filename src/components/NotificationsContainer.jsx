@@ -12,6 +12,7 @@ export const NotificationsContainer = ({ isOpen }) => {
     <Box
       sx={{
         position: "absolute",
+        zIndex: 2,
         right: "0px",
         top: "64px",
         width: "100%",
