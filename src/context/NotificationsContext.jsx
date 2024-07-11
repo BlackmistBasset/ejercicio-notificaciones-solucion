@@ -65,9 +65,16 @@ export const NotificationsProvider = ({ children }) => {
     ).finally(() => getNotifications());
   };
 
-  // const handleDeleteNotifications = () => {
-
-  // };
+  const handleDeleteNotifications = () => {
+    notificationsArray.forEach(({ id }) => {
+      fetch(
+        `https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones/${id}`,
+        {
+          method: "DELETE",
+        }
+      ).finally(() => getNotifications());
+    });
+  };
 
   return (
     <NotificationsContext.Provider

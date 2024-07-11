@@ -5,9 +5,10 @@ import { Notification } from "./Notification";
 import { NotificationsContext } from "../context/NotificationsContext";
 
 export const NotificationsContainer = ({ isOpen }) => {
-  const { notificationsArray, handleDeleteNotifications, isLoading } =
+  const { notificationsArray, handleDeleteNotifications } =
     useContext(NotificationsContext);
-
+  const reversedArray = [...notificationsArray].reverse();
+  console.log(reversedArray);
   return (
     <>
       <Box
@@ -24,7 +25,7 @@ export const NotificationsContainer = ({ isOpen }) => {
       >
         <nav aria-label="lista de notificacioines">
           <List>
-            {notificationsArray?.length > 0 && (
+            {notificationsArray.length > 0 && (
               <Typography
                 sx={{
                   color: "black",
@@ -40,8 +41,8 @@ export const NotificationsContainer = ({ isOpen }) => {
                 Borrar todas las notificaciones
               </Typography>
             )}
-            {notificationsArray?.length > 0 ? (
-              notificationsArray.map(
+            {notificationsArray.length > 0 ? (
+              reversedArray.map(
                 ({ id, notificationMessage, seen, notificationType }) => {
                   return (
                     <Notification

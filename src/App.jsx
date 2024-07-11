@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Navbar />
-      {/* {isLoading ? (
+      {isLoading ? (
         <CircularProgress />
       ) : (
         <Box sx={{ display: "grid", justifyContent: "center" }}>
@@ -25,19 +25,7 @@ function App() {
             notificationType="follow"
           />
         </Box>
-      )} */}
-      <Box sx={{ display: "grid", justifyContent: "center" }}>
-        <NotificationButton
-          notificationName="Enviar Like"
-          notificationMessage="Has recibido un like"
-          notificationType="like"
-        />
-        <NotificationButton
-          notificationName="Seguir Usuario"
-          notificationMessage="Pepito te está siguiendo"
-          notificationType="follow"
-        />
-      </Box>
+      )}
     </>
   );
 }
