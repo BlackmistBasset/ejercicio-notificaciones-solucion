@@ -1,14 +1,24 @@
 import { createContext, useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { getNotifications, setNotifications } from "../utils/localStorage";
 
 export const NotificationsContext = createContext();
 
 export const NotificationsProvider = ({ children }) => {
-  const [notificationsArray, setNotificationsArray] = useState(
-    getNotifications() || []
-  );
+  const [notificationsArray, setNotificationsArray] = useState([]);
   const [notificationsCounter, setNotificationsCounter] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getNotifications = () => {
+    fetch("https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones")
+      .then((res) => res.json())
+      .then((data) => {
+        setNotificationsArray(data);
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getNotifications();
+  }, []);
 
   useEffect(() => {
     setNotificationsCounter(0);
@@ -19,44 +29,45 @@ export const NotificationsProvider = ({ children }) => {
         );
       }
     });
-
-    setNotifications(JSON.stringify(notificationsArray));
   }, [notificationsArray]);
 
   const handleSendNotification = (notification, notificationType) => {
     const newNotification = {
-      id: uuidv4(),
       notificationMessage: notification,
       seen: false,
       notificationType: notificationType,
     };
 
-    setNotificationsArray([...notificationsArray, newNotification]);
+    fetch("https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(newNotification),
+    }).finally(() => getNotifications());
   };
 
   const handleMarkAsSeen = (notificationId) => {
-    const updatedArray = notificationsArray?.map((notification) => {
-      if (notification.id === notificationId) {
-        return { ...notification, seen: true };
-      } else {
-        return notification;
+    fetch(
+      `https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones/${notificationId}`,
+      {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ seen: true }),
       }
-    });
-
-    setNotificationsArray(updatedArray);
+    ).finally(() => getNotifications());
   };
 
   const handleDeleteNotification = (notificationId) => {
-    const updatedArray = notificationsArray?.filter(
-      (notification) => notification.id !== notificationId
-    );
-
-    setNotificationsArray(updatedArray);
+    fetch(
+      `https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones/${notificationId}`,
+      {
+        method: "DELETE",
+      }
+    ).finally(() => getNotifications());
   };
 
-  const handleDeleteNotifications = () => {
-    setNotificationsArray([]);
-  };
+  // const handleDeleteNotifications = () => {
+
+  // };
 
   return (
     <NotificationsContext.Provider
@@ -68,6 +79,7 @@ export const NotificationsProvider = ({ children }) => {
         handleMarkAsSeen,
         handleDeleteNotification,
         handleDeleteNotifications,
+        isLoading,
       }}
     >
       {children}
