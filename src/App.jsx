@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { NotificationButton } from "./components/NotificationButton";
 import { Navbar } from "./components/Navbar";
 import { NotificationsContext } from "./context/NotificationsContext";
+import { CardsContainer } from "./components/CardsContainer";
 
 import { Box, CircularProgress } from "@mui/material";
 function App() {
@@ -10,7 +11,8 @@ function App() {
   return (
     <>
       <Navbar />
-      {isLoading ? (
+      <CardsContainer />
+      {/*  {isLoading ? (
         <CircularProgress />
       ) : (
         <Box sx={{ display: "grid", justifyContent: "center" }}>
@@ -25,7 +27,7 @@ function App() {
             notificationType="follow"
           />
         </Box>
-      )}
+      )} */}
     </>
   );
 }

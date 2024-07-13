@@ -8,7 +8,7 @@ export const NotificationsContainer = ({ isOpen }) => {
   const { notificationsArray, handleDeleteNotifications } =
     useContext(NotificationsContext);
   const reversedArray = [...notificationsArray].reverse();
-  console.log(reversedArray);
+
   return (
     <>
       <Box

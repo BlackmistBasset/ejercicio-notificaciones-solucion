@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-
+import axios from "axios";
 export const NotificationsContext = createContext();
 
 export const NotificationsProvider = ({ children }) => {
@@ -7,13 +7,14 @@ export const NotificationsProvider = ({ children }) => {
   const [notificationsCounter, setNotificationsCounter] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
+  axios.defaults.baseURL =
+    "https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones";
+
   const getNotifications = () => {
-    fetch("https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones")
-      .then((res) => res.json())
-      .then((data) => {
-        setNotificationsArray(data);
-        setIsLoading(false);
-      });
+    axios.get().then((response) => {
+      setNotificationsArray(response.data);
+      setIsLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -38,31 +39,19 @@ export const NotificationsProvider = ({ children }) => {
       notificationType: notificationType,
     };
 
-    fetch("https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(newNotification),
-    }).finally(() => getNotifications());
+    axios
+      .post(axios.defaults.baseURL, newNotification)
+      .finally(() => getNotifications());
   };
 
   const handleMarkAsSeen = (notificationId) => {
-    fetch(
-      `https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones/${notificationId}`,
-      {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ seen: true }),
-      }
-    ).finally(() => getNotifications());
+    axios
+      .put(`/${notificationId}`, { seen: true })
+      .finally(() => getNotifications());
   };
 
   const handleDeleteNotification = (notificationId) => {
-    fetch(
-      `https://666ddd147a3738f7cacd7f85.mockapi.io/notificaciones/${notificationId}`,
-      {
-        method: "DELETE",
-      }
-    ).finally(() => getNotifications());
+    axios.delete(`/${notificationId}`).finally(() => getNotifications());
   };
 
   const handleDeleteNotifications = () => {
